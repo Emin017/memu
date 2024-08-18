@@ -31,14 +31,13 @@
           git
           gnumake
           zigpkgs.master
-          pkgsCross.riscv64-embedded.buildPackages.gcc
         ];
       in {
         legacyPackages = pkgs;
         formatter = pkgs.alejandra;
         devShells.default = pkgs.mkShell.override {stdenv = pkgs.clangStdenv;} {
           buildInputs = [deps riscvPkgs.buildPackages.gcc] ++ pkgs.lib.optional pkgs.stdenv.isLinux riscvPkgs.buildPackages.gdb;
-          RV64_TOOLCHAIN_ROOT = "${pkgs.pkgsCross.riscv64-embedded.buildPackages.gcc}";
+          RV64_TOOLCHAIN_ROOT = "${riscvPkgs.buildPackages.gcc}";
           shellHook = ''
             export EMU_CC=$RV64_TOOLCHAIN_ROOT/bin/riscv64-unknown-linux-gnu-gcc
             export EMU_OBJCOPY=$RV64_TOOLCHAIN_ROOT/bin/riscv64-unknown-linux-gnu-objcopy
